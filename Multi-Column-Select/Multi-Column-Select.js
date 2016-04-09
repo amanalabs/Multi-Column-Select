@@ -113,7 +113,7 @@
 
                 var $select = $('.selected').parent().prev().prev();
                 if ($select.val() !== null) {
-                    args = $select.val();
+                    args.push($select.val());
                 }
                 itemclick($('.selected'), settings.itemClass, args);
                 $('.selected').toggleClass('selected');
@@ -130,7 +130,7 @@
         {
             var $select = $(this).parent().prev().prev();
             if ($select.val() !== null) {
-                args = $select.val();
+                args.push($select.val());
             }
             itemclick(this, settings.itemClass, args);
             if ($.isFunction(settings.onItemSelect)) {
