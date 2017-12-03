@@ -1,0 +1,14 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "google"],
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
+  },
+  "rules": {
+    // Additional, per-project rules...
+    "no-console":0,
+    "new-cap": [1,{"newIsCapExceptions":["module.default"],"capIsNewExceptions":["module.default"]}]
+  }
+}
