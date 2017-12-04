@@ -5,34 +5,71 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
 
+const filename = 'multi-column-select';
+let cssFileName = filename;
+let jsFileName = filename;
+
+var MIN = JSON.parse(process.env.PROD_ENV || false);
+
+if (MIN){
+    cssFileName = filename+'.min.css';
+    jsFileName = filename+'.min.js';
+}else{
+    cssFileName = filename+'.css';
+    jsFileName = filename+'.js';
+}
+
+const plugins =[
+    new ExtractTextPlugin(cssFileName),
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('libary')
+        }
+    }),
+    new HtmlWebpackPlugin({
+        inject: false,
+        title: 'MSC',
+        template: './src/demo.template.html',
+    }),
+    new ExtractTextPlugin(cssFileName)
+];
+
+if (!MIN){
+    plugins.push(
+        new CleanWebpackPlugin(['dist'])
+    );
+}
+
+if (MIN){
+    plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false }
+        })
+    );
+
+    plugins.push(
+        new OptimizeCssAssetsPlugin()
+    );
+}
 
 module.exports = {
 
     entry: [
-        './src/mcs.js'
+        './src/index.js'
     ],
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'multiColumnSelect.js',
+        filename: MIN ? 'multiColumnSelect.min.js' : 'multiColumnSelect.js',
         libraryTarget: 'umd',
-        library: 'multiColumnSelect'
+        library: 'multiColumnSelect',
+        umdNamedDefine: true,
     },
-    plugins: [
-        new CleanWebpackPlugin(['dist']),
-        new OptimizeCssAssetsPlugin(),
-        new ExtractTextPlugin('multi-column-select.css'),
-        new HtmlWebpackPlugin({
-            inject: false,
-            title: 'MSC',
-            template: './src/demo.template.html',
-        }),
-        new webpack.optimize.UglifyJsPlugin(),
-    ],
+    plugins: plugins,
     module: {
         rules: [
             {
                 test: [/\.js$/],
-                exclude: [/node_modules/],
+                exclude: /node_modules(?!\/webpack-dev-server)/,
                 loader: 'babel-loader',
                 options: {presets: ['es2015']},
             },

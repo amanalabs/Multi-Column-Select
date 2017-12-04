@@ -37,6 +37,29 @@ require(['multi-column-select'], function ( Mcs) {
 
 </pre>
 
+
+<h2>Usage</h2>
+
+<h3>Web/Browser</h3>
+
+Download the release from: (github)
+
+Include the stylesheets and script.
+
+<link href="multi-column-select.css" rel="stylesheet">
+<script type="text/javascript" src="multiColumnSelect.min.js"></script>
+
+Call the script
+
+<pre>
+    <script>
+       var mcs = new multiColumnSelect();
+       mcs.init();
+    </script>
+</pre>
+
+
+
 <p>NO Longer Requires Jquery</p>
 
 <ul>
