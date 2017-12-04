@@ -26,7 +26,7 @@
             </div>
             <h2>Multiple Selection Multi-Column-Select</h2>
             <div class="mcs">
-            <select name="multiCar" multiple data-type="multi" required>
+            <select name="multiCar" required>
                 <option value="Audi" selected>Audi22</option>
                 <option value="Chrysler">Chrysler</option>
                 <option value="Daihatsu" selected>Daihatsu</option>
@@ -36,7 +36,6 @@
                 <option value="Infiniti">Infiniti</option>
             </select>
             </div>
-            <input type="submit">
         </form>
     </main>
 
@@ -44,9 +43,16 @@
     <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
     <script>
-       var mcs = new multiColumnSelect();
-       mcs.init();
+       var mcs = new multiColumnSelect({
+           selector: '.mcs',
+           container :    'mcs-container',
+           init: true,
+           onClick: function(index, value){
+               console.log('current index:'+index+' value: '+value);
+           }
+       });
+       //mcs.init();
+       //mcs.destroy();
     </script>
 </body>
-
 </html>

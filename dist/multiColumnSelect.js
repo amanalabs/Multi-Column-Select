@@ -95,15 +95,14 @@ exports.default = undefined;
 var _mutiColumnSelect = __webpack_require__(2);
 
 if (true) {
-    //load styles via webpack sass loader
     __webpack_require__(4);
 }
 
-exports.default = _mutiColumnSelect.Mcs;
+exports.default = _mutiColumnSelect.multiColumnSelect;
 
 
 if (true) {
-    module.exports = _mutiColumnSelect.Mcs;
+    module.exports = _mutiColumnSelect.multiColumnSelect;
 }
 
 /***/ }),
@@ -116,41 +115,50 @@ if (true) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Mcs = undefined;
+exports.multiColumnSelect = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _functions = __webpack_require__(3);
-
-var mF = _interopRequireWildcard(_functions);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _mcs = __webpack_require__(3);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Mcs = exports.Mcs = function () {
-    function Mcs() {
-        _classCallCheck(this, Mcs);
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Multi Column Select
+ */
+var multiColumnSelect = exports.multiColumnSelect = function (_MCS) {
+    _inherits(multiColumnSelect, _MCS);
+
+    /**
+     * Settings with defaults if not provided.
+     * @param options
+     */
+    function multiColumnSelect(options) {
+        _classCallCheck(this, multiColumnSelect);
+
+        return _possibleConstructorReturn(this, (multiColumnSelect.__proto__ || Object.getPrototypeOf(multiColumnSelect)).call(this, options));
     }
 
-    _createClass(Mcs, [{
-        key: 'init',
-        value: function init() {
-            var selects = document.querySelectorAll('.mcs');
-            [].forEach.call(selects, function (select) {
-                var items = select.querySelectorAll('option');
-                mF._createContainer(select, items);
+    /**
+     * Destroy Multi-Column-Select.
+     */
+
+
+    _createClass(multiColumnSelect, [{
+        key: "destroy",
+        value: function destroy() {
+            [].forEach.call(this.containers, function (container) {
+                container.remove();
             });
-        }
-    }, {
-        key: 'bar',
-        value: function bar() {
-            return 'barbax';
         }
     }]);
 
-    return Mcs;
-}();
+    return multiColumnSelect;
+}(_mcs.MCS);
 
 /***/ }),
 /* 3 */
@@ -162,70 +170,186 @@ var Mcs = exports.Mcs = function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.createContainer = createContainer;
-exports.createSingleItem = createSingleItem;
-exports._createContainer = _createContainer;
-function createContainer() {
-    var container = document.createElement('div');
-    container.className = 'mcs-container';
-    return container;
-}
 
-function createSingleItem(item, index) {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    var name = item.innerHTML;
-    var value = item.value;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    var link = document.createElement('a');
-    link.innerHTML = name;
-    link.setAttribute('href', value);
-    link.setAttribute('data-value', value);
-    link.setAttribute('data-index', index);
-    link.addEventListener('click', function (e) {
-        e.preventDefault();
+var defaults = {
+    selector: '.mcs',
+    container: 'mcs-container',
+    init: false,
+    onClick: function onClick(index, value) {}
+};
 
-        var links = link.parentNode.querySelectorAll('a');
-        [].forEach.call(links, function (lnk) {
-            if (lnk === link) {
-                link.className = 'active';
-            } else {
-                lnk.removeAttribute('class');
-            }
-        });
+/**
+ * MCS Base Class.
+ */
 
-        var options = link.parentNode.parentNode.querySelectorAll('option');
-        [].forEach.call(options, function (item, itemIndex) {
-            item.removeAttribute('selected');
-        });
-        options[index].setAttribute('selected', 'selected');
-    });
+var MCS = exports.MCS = function () {
 
-    return link;
-}
+    /**
+     * Settings with defaults if not provided.
+     * @param options
+     */
+    function MCS(options) {
+        _classCallCheck(this, MCS);
 
-function _createContainer(select, items) {
-
-    var links = [];
-    var container = createContainer();
-    [].forEach.call(items, function (item, itemIndex) {
-        if (select.children[0].multiple === true) {} else {
-            links.push(createSingleItem(item, itemIndex));
-            container.appendChild(links[links.length - 1]);
+        this.settings = Object.assign(defaults, options);
+        this.containers = [];
+        if (true === this.settings.init) {
+            this.init();
         }
-    });
+    }
 
-    select.children[0].onchange = function () {
-        var selected = this.value;
-        [].forEach.call(links, function (link) {
-            if (selected === link.getAttribute('data-value')) {
-                link.className = 'active';
-            } else {
-                link.removeAttribute('class');
-            }
-        });
-    };
-    select.appendChild(container);
-}
+    /**
+     * Initialise Multi Column Select.
+     */
+
+
+    _createClass(MCS, [{
+        key: 'init',
+        value: function init() {
+            var self = this;
+            var selects = document.querySelectorAll(self.settings.selector);
+            [].forEach.call(selects, function (select) {
+                var items = select.querySelectorAll('option');
+                self.build(self.settings.container, select, items);
+            });
+        }
+
+        /**
+         * Build Multi Column Select Component
+         * @param className
+         * @param select
+         * @param items
+         */
+
+    }, {
+        key: 'build',
+        value: function build(className, select, items) {
+
+            var self = this;
+            var links = [];
+            var container = self.createContainer(className);
+            var input = select.children[0];
+
+            [].forEach.call(items, function (item, itemIndex) {
+                if (input.multiple === true) {
+                    //todo handle multiple
+                } else {
+                    links.push(self.createSingleItem(item, itemIndex));
+                    container.appendChild(links[links.length - 1]);
+                }
+            });
+
+            input.onchange = function () {
+                var selected = this.value;
+                [].forEach.call(links, function (link) {
+                    if (selected === link.getAttribute('data-value')) {
+                        link.className = 'active';
+                    } else {
+                        link.removeAttribute('class');
+                    }
+                });
+            };
+            select.appendChild(container);
+            self.containers.push(container);
+        }
+
+        /**
+         * Create Single Selection Item with events.
+         * @param item
+         * @param index
+         */
+
+    }, {
+        key: 'createSingleItem',
+        value: function createSingleItem(item, index) {
+
+            var self = this;
+            var name = item.innerHTML;
+            var value = item.value;
+            var link = self.createItem(value, index, name);
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                self.toggleLink(link);
+                self.updateSelect(this.parentNode.parentNode.querySelectorAll('option'), link, index);
+                self.settings.onClick(index, value);
+            });
+            return link;
+        }
+
+        /**
+         * Update Select Control.
+         * @param {array} options
+         * @param link
+         * @param index
+         */
+
+    }, {
+        key: 'updateSelect',
+        value: function updateSelect(options, link, index) {
+            [].forEach.call(options, function (item) {
+                item.removeAttribute('selected');
+            });
+            options[index].setAttribute('selected', 'selected');
+        }
+
+        /**
+         * Create Container Fragment.
+         * @param className
+         * @returns {HTMLDivElement}
+         */
+
+    }, {
+        key: 'createContainer',
+        value: function createContainer(className) {
+            var container = document.createElement('div');
+            container.className = className;
+            return container;
+        }
+
+        /**
+         * Create Item Fragment.
+         * @param value
+         * @param index
+         * @param name
+         * @returns {HTMLAnchorElement}
+         */
+
+    }, {
+        key: 'createItem',
+        value: function createItem(value, index, name) {
+            var link = document.createElement('a');
+            link.innerHTML = name;
+            link.setAttribute('href', value);
+            link.setAttribute('data-value', value);
+            link.setAttribute('data-index', index);
+            return link;
+        }
+
+        /**
+         * Toggle links.
+         * @param link
+         */
+
+    }, {
+        key: 'toggleLink',
+        value: function toggleLink(link) {
+            var links = link.parentNode.querySelectorAll('a');
+            [].forEach.call(links, function (lnk) {
+                if (lnk === link) {
+                    link.className = 'active';
+                } else {
+                    lnk.removeAttribute('class');
+                }
+            });
+        }
+    }]);
+
+    return MCS;
+}();
 
 /***/ }),
 /* 4 */

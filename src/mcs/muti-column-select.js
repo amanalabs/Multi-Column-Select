@@ -1,14 +1,25 @@
-import * as mF from "./functions";
+import {MCS} from "./mcs";
 
-export class Mcs {
-    init() {
-        var selects = document.querySelectorAll('.mcs');
-        [].forEach.call(selects, function(select){
-            var items = select.querySelectorAll('option');
-            mF._createContainer(select,items);
-        });
+
+
+/**
+ * Multi Column Select
+ */
+export class multiColumnSelect extends MCS{
+    /**
+     * Settings with defaults if not provided.
+     * @param options
+     */
+    constructor(options){
+        super(options);
     }
-    bar() {
-        return 'barbax';
+
+    /**
+     * Destroy Multi-Column-Select.
+     */
+    destroy(){
+       [].forEach.call(this.containers, function(container){
+           container.remove();
+       })
     }
 }

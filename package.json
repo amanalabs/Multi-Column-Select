@@ -5,9 +5,10 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack && PROD_ENV=1 webpack",
+    "build-windows": "webpack && SET PROD_ENV=1 && webpack",
     "watch": "webpack --progress --watch",
     "start": "webpack-dev-server --open --config webpack.config.js",
-    "test": "mocha -r test/setup.js --compilers js:babel-register --require babel-polyfill",
+    "test": "mocha -r test/setup.js --compilers js:babel-register --require babel-polyfill --recursive",
     "eslint": "eslint --fix ./src/*; exit 0",
     "lint": "eslint --fix"
   },
@@ -19,6 +20,7 @@
     "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-minify": "^0.2.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-regenerator-runtime": "^6.5.0",
     "clean-webpack-plugin": "^0.1.16",
