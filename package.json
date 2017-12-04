@@ -1,8 +1,8 @@
 {
-  "name": "webpack3",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "multi-column-select",
+  "version": "0.0.1",
+  "description": "Multi Column Select Dropdown replacement",
+  "main": "src/mcs.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --progress --watch",
