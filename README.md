@@ -1,144 +1,88 @@
 <h1>Multi-Column-Select</h1>
-[![Code Climate](https://codeclimate.com/repos/54ff00b2695680505900054a/badges/df72ceaf9494c4af73ca/gpa.svg)](https://codeclimate.com/repos/54ff00b2695680505900054a/feed)
-[![Codacy Badge](https://www.codacy.com/project/badge/5f56effdd83b494ca6698216704d1d88)](https://www.codacy.com/public/dansmith/Multi-Column-Select)
+<p>This component has been updated and is not BC with the old plugin.</p>
+<p>NO Longer Requires Jquery</p>
 
-![alt tag](http://www.djsmith.me/PLUGS/mcs/mcs.jpg)
+<p>Jquery Release</p>
+<p>@see branch: https://github.com/djsmithme/Multi-Column-Select/tree/jquery<br>
+<p>@see final release of this branch: https://github.com/djsmithme/Multi-Column-Select/releases/tag/1.0.0 </p>
 
-<h4>Jquery CSS Multi Column Select Box</h4>
-<p>A Simple plugin (3Kb) that will hide the Select control and then display a multicolumn dropdown (css)</p>
+<p>A Simple plugin that will hide the Select control and then display a multi column dropdown (css)</p>
 <p>Uses the original form control so will work if JS is not enabled and the form can be processed as normal</p>
-<h4><a href="http://djsmithme.github.io/Multi-Column-Select/">demo</a></h4>
+<p>Currently does not work with multiple selects</p>
 
 <h2>Installation</h2>
+Download the release from: (github)
+https://github.com/djsmithme/Multi-Column-Select/releases/tag/b2.0.0
 
-<pre>
+Or Install via npm:
+```
+npm multi-column-select --save
+```
 
-Load the CSS:
-"MultiColumnSelect/MultiColumnSelect.css"
-
-Include js plugin:
-"MultiColumnSelect/MultiColumnSelect.js"
-
-</pre>
-
-<p>Updated 0.3 - Will not work with older versions</p>
-<ul>
-<li> Fixed issue with multiple selects </li>
-<li> Added Destroy method </li>
-<li> Remove clear class </li>
-<li> Removed/renamed some plugin settings</li>
-</ul>
-
-<h2>Set up your HTML</h2>
+<h2>Usage</h2>
+<h3>Web/Browser</h3>
+Include the stylesheets and script.
 
 ```
-    <form action="test.php" method="GET">
+    <link href="multi-column-select.css" rel="stylesheet">
+    <script type="text/javascript" src="multiColumnSelect.min.js"></script>
+```
 
-    <div id="selectcontrol">
-        <select name="car">
-                <option value="Audi">Audi</option>
-                <option value="Bugatti">Bugatti</option>
-                <option value="Chrysler">Chrysler</option>
-                <option value="Daihatsu">Daihatsu</option>
-                <option value="Ford">Ford</option>
-                <option value="GM">General Motors</option>
-                <option value="Honda">Honda</option>
-                <option value="Infiniti">Infiniti</option>
-                <option value="Jeep">Jeep</option>
-                <option value="Kia">Kia</option>
-     </select>
-    </div>
-    
-        <input type="submit" value="Submit" />
-    
-    </form>
+Call the script
 
 ```
-Wrap the select control with a div and give that container an ID
+   var mcs = new multiColumnSelect({
+       selector: '.mcs',
+       container :    'mcs-container',
+       init: true,
+       onClick: function(index, value){}
+   });
 
-<h2>CSS</h2>
+   //use options.init: false to manually start the component.
+   mcs.init();
+   mcs.destroy();
+```
 
-This is the HTML that the plugin produces (classed/ID's can be changed in the options):
+<h3>Npm</h3>
+
+<h4>CommonJS module require</h4>
 
 ```
+let mutiColumnSelect = require('multi-column-select');
+let Msc = new mutiColumnSelect.default(options);
+Mcs.init(options);
+```
+
+<h4>ES2015 module import</h4>
+
+```
+import mutiColumnSelect from 'multi-column-select';
+var Mcs = new mutiColumnSelect(options);
+Mcs.init(options);
+```
+
+<h2>Set up</h2>
+
+Wrap Select control in div/span with a class name.
+```
+<div class="mcs">
+    <select...>
+       <options...>
+    </select>
+</div>
+//component appended after the container.
 <div class="mcs-container">
-	<a id="mcs-1" data="Audi" class="mcs-item active">Audi</a>
-	<a id="mcs-2" data="Bugatti" class="mcs-item">Bugatti</a>
-	<a id="mcs-3" data="Chrysler" class="mcs-item active">Chrysler</a>
-	<a id="mcs-4" data="Daihatsu" class="mcs-item">Daihatsu</a>
-	<a id="mcs-5" data="Ford" class="mcs-item">Ford</a>
-	<a id="mcs-6" data="GM" class="mcs-item active">General Motors</a>
-	<a id="mcs-7" data="Honda" class="mcs-item">Honda</a>
-	<a id="mcs-8" data="Infiniti" class="mcs-item">Infiniti</a>
+    <a href="Audi" data-value="Audi" data-index="0">Audi</a>
+    <a href="Bugatti" data-value="Bugatti" data-index="1">Bugatti</a>
+    <a href="Chrysler" data-value="Chrysler" data-index="2">Chrysler</a>
+    <a href="Daihatsu" data-value="Daihatsu" data-index="3">Daihatsu</a>
+    <a href="Ford" data-value="Ford" data-index="4">Ford</a>
+    <a href="GM" data-value="GM" data-index="5">General Motors</a>
+    <a href="Honda" data-value="Honda" data-index="6">Honda</a>
+    <a href="Infiniti" data-value="Infiniti" data-index="7">Infiniti</a>
 </div>
 
 ```
-So feel free to style it however you like. 
-
-The only styles to worry about are :
-
-```
-//toggle open /close button
-.mcs-open {
-}
-
-//container wrap for menu
-.mcs-container {
-        overflow:hidden;            
-        display:none;                    
-}
-
-//menu items / option replacements
-.mcs-item {
-}
-
-
-```
-
-
-<h2>Call the plugin</h2>
-
-```javascript
-$("#selectcontrol").MultiColumnSelect({
-
-            multiple:           false,              // Single or Multiple Select- Default Single
-            useOptionText :     true,               // Use text from option. Use false if you plan to use images
-            hideselect :        true,               // Hide Original Select Control
-            openmenuClass :     'mcs-open',         // Toggle Open Button Class
-            openmenuText :      'Choose An Option', // Text for button
-            openclass :         'open',             // Class added to Toggle button on open
-            containerClass :    'mcs-container',    // Class of parent container
-            itemClass :         'mcs-item',         // Class of menu items
-            idprefix : null,                        // Assign as ID to items eg 'item-' = #item-1, #item-2, #item-3...
-            duration : 200,                         //Toggle Height duration
-            onOpen : function(){},
-            onClose : function(){},
-            onItemSelect : function(){}
-
-});
-
-//Add item to selectbox
-$('#selectcontrol').MultiColumnSelectAddItem(OptionID,OptionValue,IDPrefix);
-
-
-//Destroy plugin
-$("#selectcontrol").MultiColumnSelectDestroy();
-
-
-
-
-```
-
-
-<h2>Tested on</h2>
-<ul>
-<li>IE7+</li>
-<li>Safari</li>
-<li>Firefox </li>
-<li>Chrome</li>
-</ul>
-
 
 <h2>License</h2>
-
 <p>The MIT License (MIT)</p>
