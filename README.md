@@ -1,11 +1,4 @@
 <h1>Multi-Column-Select</h1>
-[![Code Climate](https://codeclimate.com/repos/54ff00b2695680505900054a/badges/df72ceaf9494c4af73ca/gpa.svg)](https://codeclimate.com/repos/54ff00b2695680505900054a/feed)
-[![Codacy Badge](https://www.codacy.com/project/badge/5f56effdd83b494ca6698216704d1d88)](https://www.codacy.com/public/dansmith/Multi-Column-Select)
-
-![alt tag](http://www.djsmith.me/PLUGS/mcs/mcs.jpg)
-
-<h1>Multi-Column-Select</h1>
-
 <p>This component has been updated and is not BC with the old plugin.</p>
 <p>NO Longer Requires Jquery</p>
 
@@ -15,9 +8,7 @@
 
 <p>A Simple plugin that will hide the Select control and then display a multi column dropdown (css)</p>
 <p>Uses the original form control so will work if JS is not enabled and the form can be processed as normal</p>
-
 <p>Currently does not work with multiple selects</p>
-
 
 <h2>Installation</h2>
 Download the release from: (github)
@@ -40,71 +31,68 @@ Include the stylesheets and script.
 Call the script
 
 ```
-   var mcs = new multiColumnSelect(options);
+   var mcs = new multiColumnSelect({
+       selector: '.mcs',
+       container :    'mcs-container',
+       init: true,
+       onClick: function(index, value){}
+   });
+
+   //use options.init: false to manually start the component.
    mcs.init();
+   mcs.destroy();
 ```
 
 <h3>Npm</h3>
 
 <h4>CommonJS module require</h4>
+
+```
 let mutiColumnSelect = require('multi-column-select');
 let Msc = new mutiColumnSelect.default(options);
 Mcs.init(options);
+```
 
 <h4>ES2015 module import</h4>
+
+```
 import mutiColumnSelect from 'multi-column-select';
 var Mcs = new mutiColumnSelect(options);
 Mcs.init(options);
-
-
-
-<ul>
-    <li> Fixed issue with multiple selects </li>
-    <li> Added Destroy method </li>
-    <li> Remove clear class </li>
-    <li> Removed/renamed some plugin settings</li>
-</ul>
-
-<h2>Set up your HTML</h2>
 ```
- <div class="mcs">
-     <select name="car" required>
-         <option value="Audi">Audi</option>
-         <option value="Bugatti" selected>Bugatti</option>
-         <option value="Chrysler">Chrysler</option>
-         <option value="Daihatsu">Daihatsu</option>
-         <option value="Ford">Ford</option>
-         <option value="GM">General Motors</option>
-         <option value="Honda">Honda</option>
-         <option value="Infiniti">Infiniti</option>
-     </select>
- </div>
+
+<h2>Set up</h2>
+
+Wrap Select control in div/span with a class name.
+```
+<div class="mcs">
+    <select...>
+       <options...>
+    </select>
+</div>
+//component appended after the container.
+
 ```
 
 <h2>CSS</h2>
-
-This is the HTML that the plugin produces (classed/ID's can be changed in the options):
-
+Component markup:
 ```
+
+<style>
+div.mcs-container{}
+div.mcs-container a{}
+</style>
+
 <div class="mcs-container">
-	<a id="mcs-1" data="Audi" class="mcs-item active">Audi</a>
-	<a id="mcs-2" data="Bugatti" class="mcs-item">Bugatti</a>
-	<a id="mcs-3" data="Chrysler" class="mcs-item active">Chrysler</a>
-	<a id="mcs-4" data="Daihatsu" class="mcs-item">Daihatsu</a>
-	<a id="mcs-5" data="Ford" class="mcs-item">Ford</a>
-	<a id="mcs-6" data="GM" class="mcs-item active">General Motors</a>
-	<a id="mcs-7" data="Honda" class="mcs-item">Honda</a>
-	<a id="mcs-8" data="Infiniti" class="mcs-item">Infiniti</a>
+    <a href="Audi" data-value="Audi" data-index="0">Audi</a>
+    <a href="Bugatti" data-value="Bugatti" data-index="1">Bugatti</a>
+    <a href="Chrysler" data-value="Chrysler" data-index="2">Chrysler</a>
+    <a href="Daihatsu" data-value="Daihatsu" data-index="3">Daihatsu</a>
+    <a href="Ford" data-value="Ford" data-index="4">Ford</a>
+    <a href="GM" data-value="GM" data-index="5">General Motors</a>
+    <a href="Honda" data-value="Honda" data-index="6">Honda</a>
+    <a href="Infiniti" data-value="Infiniti" data-index="7">Infiniti</a>
 </div>
-
-```
-So feel free to style it however you like. 
-
-The only styles to worry about are :
-
-```
-.msc-container{} //container
-.mcs-container a{} //option replacements.
 ```
 
 <h2>License</h2>
