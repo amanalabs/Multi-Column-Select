@@ -4,17 +4,28 @@
 
 ![alt tag](http://www.djsmith.me/PLUGS/mcs/mcs.jpg)
 
-<h4>Multi Column Select Box</h4>
+<h1>Multi-Column-Select</h1>
+
+<p>This component has been updated and is not BC with the old plugin.</p>
+<p>NO Longer Requires Jquery</p>
+
+<p>Jquery Release</p>
+<p>@see branch: https://github.com/djsmithme/Multi-Column-Select/tree/jquery<br>
+<p>@see final release of this branch: https://github.com/djsmithme/Multi-Column-Select/releases/tag/1.0.0 </p>
+
 <p>A Simple plugin (3Kb) that will hide the Select control and then display a multi column dropdown (css)</p>
 <p>Uses the original form control so will work if JS is not enabled and the form can be processed as normal</p>
 
+<p>Currently does not work with multiple selects</p>
+
+
 <h2>Installation</h2>
-
 Download the release from: (github)
+https://github.com/djsmithme/Multi-Column-Select/releases/tag/b2.0.0
 
-Install via npm:
+Or Install via npm:
 ```
-    npm multi-column-select --save
+npm multi-column-select --save
 ```
 
 <h2>Usage</h2>
@@ -29,7 +40,7 @@ Include the stylesheets and script.
 Call the script
 
 ```
-   var mcs = new multiColumnSelect();
+   var mcs = new multiColumnSelect(options);
    mcs.init();
 ```
 
@@ -37,16 +48,16 @@ Call the script
 
 <h4>CommonJS module require</h4>
 let mutiColumnSelect = require('multi-column-select');
-let Msc = new mutiColumnSelect.default();
+let Msc = new mutiColumnSelect.default(options);
 Mcs.init(options);
 
 <h4>ES2015 module import</h4>
 import mutiColumnSelect from 'multi-column-select';
-var Mcs = new mutiColumnSelect();
+var Mcs = new mutiColumnSelect(options);
 Mcs.init(options);
 
 
-<p>NO Longer Requires Jquery</p>
+
 <ul>
     <li> Fixed issue with multiple selects </li>
     <li> Added Destroy method </li>
