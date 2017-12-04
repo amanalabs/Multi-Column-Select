@@ -13,9 +13,9 @@ module.exports = {
     ],
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'multi-column-select.js',
+        filename: 'multiColumnSelect.js',
         libraryTarget: 'umd',
-        library: 'Mcs'
+        library: 'multiColumnSelect'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),

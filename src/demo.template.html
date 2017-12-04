@@ -43,13 +43,9 @@
     <% htmlWebpackPlugin.files.js.forEach(function(file){ %>
     <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
-
     <script>
-
-
-       let m = new Mcs();
-       m.init();
-
+       var mcs = new multiColumnSelect();
+       mcs.init();
     </script>
 </body>
 

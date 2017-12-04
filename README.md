@@ -4,29 +4,46 @@
 
 ![alt tag](http://www.djsmith.me/PLUGS/mcs/mcs.jpg)
 
-<h4>Jquery CSS Multi Column Select Box</h4>
-<p>A Simple plugin (3Kb) that will hide the Select control and then display a multicolumn dropdown (css)</p>
+<h4>Multi Column Select Box</h4>
+<p>A Simple plugin (3Kb) that will hide the Select control and then display a multi column dropdown (css)</p>
 <p>Uses the original form control so will work if JS is not enabled and the form can be processed as normal</p>
-<h4><a href="http://djsmithme.github.io/Multi-Column-Select/">demo</a></h4>
 
 <h2>Installation</h2>
 
 <pre>
 
-Load the CSS:
-"MultiColumnSelect/MultiColumnSelect.css"
+// ES2015 module import
+import Msc from 'multi-column-select';
+var Mcs = new Mcs();
+Mcs.init(options);
 
-Include js plugin:
-"MultiColumnSelect/MultiColumnSelect.js"
+// CommonJS module require
+var Msc = require('multi-column-select');
+Mcs.init(options);
+
+// ...
+// ES2015 and CommonJS module use
+var Mcs = new Mcs();
+Mcs.init(options);
+
+// ...
+// AMD module require
+require(['multi-column-select'], function ( Mcs) {
+  // ...
+  // AMD module use
+  Mcs.init(options);
+  // ...
+});
 
 </pre>
 
-<p>Updated 0.3 - Will not work with older versions</p>
+<p>NO Longer Requires Jquery</p>
+
 <ul>
-<li> Fixed issue with multiple selects </li>
-<li> Added Destroy method </li>
-<li> Remove clear class </li>
-<li> Removed/renamed some plugin settings</li>
+    <li> Fixed issue with multiple selects </li>
+    <li> Added Destroy method </li>
+    <li> Remove clear class </li>
+    <li> Removed/renamed some plugin settings</li>
 </ul>
 
 <h2>Set up your HTML</h2>
