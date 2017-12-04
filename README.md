@@ -74,15 +74,8 @@ Wrap Select control in div/span with a class name.
 
 ```
 
-<h2>CSS</h2>
-Component markup:
+<h2>Component markup</h2>
 ```
-
-<style>
-div.mcs-container{}
-div.mcs-container a{}
-</style>
-
 <div class="mcs-container">
     <a href="Audi" data-value="Audi" data-index="0">Audi</a>
     <a href="Bugatti" data-value="Bugatti" data-index="1">Bugatti</a>
