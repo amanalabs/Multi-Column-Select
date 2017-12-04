@@ -13,7 +13,7 @@
 <p>@see branch: https://github.com/djsmithme/Multi-Column-Select/tree/jquery<br>
 <p>@see final release of this branch: https://github.com/djsmithme/Multi-Column-Select/releases/tag/1.0.0 </p>
 
-<p>A Simple plugin (3Kb) that will hide the Select control and then display a multi column dropdown (css)</p>
+<p>A Simple plugin that will hide the Select control and then display a multi column dropdown (css)</p>
 <p>Uses the original form control so will work if JS is not enabled and the form can be processed as normal</p>
 
 <p>Currently does not work with multiple selects</p>
