@@ -5,6 +5,8 @@
     <title>Multi-Column-Select Demo</title>
     <meta name="description" content="Multi Column Select" />
     <meta name="author" content="Dan Smith">
+    <link href="multi-column-select.css" rel="stylesheet">
+</head>
 <body>
     <main>
         <h1>Multi-Column-Select</h1>
@@ -22,11 +24,10 @@
                 <option value="Infiniti">Infiniti</option>
             </select>
             </div>
-            <div class="mcs">
             <h2>Multiple Selection Multi-Column-Select</h2>
+            <div class="mcs">
             <select name="multiCar" multiple data-type="multi" required>
                 <option value="Audi" selected>Audi22</option>
-                <option value="Bugatti">Bugatti</option>
                 <option value="Chrysler">Chrysler</option>
                 <option value="Daihatsu" selected>Daihatsu</option>
                 <option value="Ford">Ford</option>
@@ -38,5 +39,18 @@
             <input type="submit">
         </form>
     </main>
+
+    <% htmlWebpackPlugin.files.js.forEach(function(file){ %>
+    <script type="text/javascript" src="<%= file %>"></script>
+    <% }); %>
+
+    <script>
+
+
+       let m = new Mcs();
+       m.init();
+
+    </script>
 </body>
+
 </html>

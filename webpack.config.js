@@ -9,22 +9,24 @@ const webpack = require('webpack');
 module.exports = {
 
     entry: [
-        './src/index.js'
+        './src/mcs.js'
     ],
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'mcs.js'
+        path: path.resolve(__dirname, './dist'),
+        filename: 'multi-column-select.js',
+        libraryTarget: 'umd',
+        library: 'Mcs'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new OptimizeCssAssetsPlugin(),
-        new ExtractTextPlugin('style.css'),
+        new ExtractTextPlugin('multi-column-select.css'),
         new HtmlWebpackPlugin({
+            inject: false,
             title: 'MSC',
             template: './src/demo.template.html',
         }),
-//        new webpack.optimize.UglifyJsPlugin(),
-
+        new webpack.optimize.UglifyJsPlugin(),
     ],
     module: {
         rules: [
