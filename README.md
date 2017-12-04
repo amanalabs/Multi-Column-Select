@@ -71,11 +71,6 @@ Wrap Select control in div/span with a class name.
     </select>
 </div>
 //component appended after the container.
-
-```
-
-<h2>Component markup</h2>
-```
 <div class="mcs-container">
     <a href="Audi" data-value="Audi" data-index="0">Audi</a>
     <a href="Bugatti" data-value="Bugatti" data-index="1">Bugatti</a>
@@ -86,6 +81,7 @@ Wrap Select control in div/span with a class name.
     <a href="Honda" data-value="Honda" data-index="6">Honda</a>
     <a href="Infiniti" data-value="Infiniti" data-index="7">Infiniti</a>
 </div>
+
 ```
 
 <h2>License</h2>
