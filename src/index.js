@@ -5,4 +5,3 @@ if (process.env.NODE_ENV === 'libary') {
 
 import {Mcs}  from "./muti-column-select";
 export class mutiColumnSelect extends Mcs{}
-module.exports = mutiColumnSelect;
