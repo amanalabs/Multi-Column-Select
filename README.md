@@ -8,7 +8,10 @@
 
 <p>A Simple plugin that will hide the Select control and then display a multi column dropdown (css)</p>
 <p>Uses the original form control so will work if JS is not enabled and the form can be processed as normal</p>
-<p>Currently does not work with multiple selects</p>
+
+* Now works with Multiple Selects
+* Added option to hide select
+* Detects options selected on init.
 
 <h2>Installation</h2>
 Download the release from: (github)
@@ -32,10 +35,11 @@ Call the script
 
 ```
    var mcs = new multiColumnSelect({
-       selector: '.mcs',
-       container :    'mcs-container',
-       init: true,
-       onClick: function(index, value){}
+      selector: '.mcs',
+      container: 'mcs-container',
+      init: false,
+      hideSelect: false,
+      onClick: function(index, value) {},
    });
 
    //use options.init: false to manually start the component.
@@ -70,7 +74,8 @@ Wrap Select control in div/span with a class name.
        <options...>
     </select>
 </div>
-//component appended after the container.
+
+//generated html
 <div class="mcs-container">
     <a href="Audi" data-value="Audi" data-index="0">Audi</a>
     <a href="Bugatti" data-value="Bugatti" data-index="1">Bugatti</a>

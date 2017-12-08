@@ -113,7 +113,7 @@ if (true) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.multiColumnSelect = undefined;
 
@@ -131,33 +131,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Multi Column Select
  */
 var multiColumnSelect = exports.multiColumnSelect = function (_MCS) {
-    _inherits(multiColumnSelect, _MCS);
+  _inherits(multiColumnSelect, _MCS);
 
-    /**
-     * Settings with defaults if not provided.
-     * @param options
-     */
-    function multiColumnSelect(options) {
-        _classCallCheck(this, multiColumnSelect);
+  /**
+   * Settings with defaults if not provided.
+   * @param options
+   */
+  function multiColumnSelect(options) {
+    _classCallCheck(this, multiColumnSelect);
 
-        return _possibleConstructorReturn(this, (multiColumnSelect.__proto__ || Object.getPrototypeOf(multiColumnSelect)).call(this, options));
+    return _possibleConstructorReturn(this, (multiColumnSelect.__proto__ || Object.getPrototypeOf(multiColumnSelect)).call(this, options));
+  }
+
+  /**
+   * Destroy Multi-Column-Select.
+   */
+
+
+  _createClass(multiColumnSelect, [{
+    key: 'destroy',
+    value: function destroy() {
+      [].forEach.call(this.containers, function (container) {
+        container.remove();
+      });
     }
+  }]);
 
-    /**
-     * Destroy Multi-Column-Select.
-     */
-
-
-    _createClass(multiColumnSelect, [{
-        key: "destroy",
-        value: function destroy() {
-            [].forEach.call(this.containers, function (container) {
-                container.remove();
-            });
-        }
-    }]);
-
-    return multiColumnSelect;
+  return multiColumnSelect;
 }(_mcs.MCS);
 
 /***/ }),
@@ -179,6 +179,7 @@ var defaults = {
     selector: '.mcs',
     container: 'mcs-container',
     init: false,
+    hideSelect: false,
     onClick: function onClick(index, value) {}
 };
 
@@ -187,10 +188,9 @@ var defaults = {
  */
 
 var MCS = exports.MCS = function () {
-
     /**
      * Settings with defaults if not provided.
-     * @param options
+     * @param {array} options
      */
     function MCS(options) {
         _classCallCheck(this, MCS);
@@ -201,7 +201,6 @@ var MCS = exports.MCS = function () {
             this.init();
         }
     }
-
     /**
      * Initialise Multi Column Select.
      */
@@ -213,87 +212,104 @@ var MCS = exports.MCS = function () {
             var self = this;
             var selects = document.querySelectorAll(self.settings.selector);
             [].forEach.call(selects, function (select) {
-                var items = select.querySelectorAll('option');
-                self.build(self.settings.container, select, items);
+                self.build(self.settings.container, select);
             });
         }
 
         /**
          * Build Multi Column Select Component
-         * @param className
-         * @param select
-         * @param items
+         * @param {string} className
+         * @param {HTMLDivElement} container
          */
 
     }, {
         key: 'build',
-        value: function build(className, select, items) {
-
+        value: function build(className, container) {
             var self = this;
+            var input = container.children[0];
             var links = [];
-            var container = self.createContainer(className);
-            var input = select.children[0];
+            var options = container.querySelectorAll('option');
 
-            [].forEach.call(items, function (item, itemIndex) {
-                if (input.multiple === true) {
-                    //todo handle multiple
-                } else {
-                    links.push(self.createSingleItem(item, itemIndex));
-                    container.appendChild(links[links.length - 1]);
-                }
+            if (self.settings.hideSelect !== false) {
+                input.classList.add(self.settings.hideSelect);
+            }
+
+            if (input.hasAttribute('multiple')) {
+                className += ' multiple';
+            }
+
+            var msc = self.createContainer(className);
+
+            [].forEach.call(options, function (option, itemIndex) {
+                links.push(self.createOptionReplacement(option, itemIndex, option.hasAttribute('selected')));
+                msc.appendChild(links[links.length - 1]);
             });
 
             input.onchange = function () {
                 var selected = this.value;
                 [].forEach.call(links, function (link) {
                     if (selected === link.getAttribute('data-value')) {
-                        link.className = 'active';
+                        link.classList.add('active');
                     } else {
-                        link.removeAttribute('class');
+                        link.classList.remove('active');
                     }
                 });
             };
-            select.appendChild(container);
-            self.containers.push(container);
+
+            container.appendChild(msc);
+            self.containers.push(msc);
         }
 
         /**
-         * Create Single Selection Item with events.
-         * @param item
-         * @param index
+         * Create Option replacement link.
+         * @param {HTMLOptionElement} option
+         * @param {int} index
+         * @param {bool} active
+         * @return {HTMLAnchorElement}
          */
 
     }, {
-        key: 'createSingleItem',
-        value: function createSingleItem(item, index) {
+        key: 'createOptionReplacement',
+        value: function createOptionReplacement(option, index) {
+            var active = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
             var self = this;
-            var name = item.innerHTML;
-            var value = item.value;
+            var name = option.innerHTML;
+            var value = option.value;
             var link = self.createItem(value, index, name);
+
+            if (active) {
+                link.classList.add('active');
+            }
+
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 self.toggleLink(link);
-                self.updateSelect(this.parentNode.parentNode.querySelectorAll('option'), link, index);
+                self.updateSelect(link.parentNode.parentNode.querySelectorAll('option'), link);
                 self.settings.onClick(index, value);
             });
+
             return link;
         }
 
         /**
-         * Update Select Control.
-         * @param {array} options
+         *
+         * @param options
          * @param link
-         * @param index
          */
 
     }, {
         key: 'updateSelect',
-        value: function updateSelect(options, link, index) {
-            [].forEach.call(options, function (item) {
-                item.removeAttribute('selected');
+        value: function updateSelect(options, link) {
+            var links = link.parentNode.querySelectorAll('a');
+
+            [].forEach.call(options, function (option, index) {
+                if (links[index].classList.contains('active')) {
+                    options[index].setAttribute('selected', 'selected');
+                } else {
+                    options[index].removeAttribute('selected');
+                }
             });
-            options[index].setAttribute('selected', 'selected');
         }
 
         /**
@@ -337,12 +353,49 @@ var MCS = exports.MCS = function () {
     }, {
         key: 'toggleLink',
         value: function toggleLink(link) {
+            var self = this;
+            if (link.parentNode.classList.contains('multiple')) {
+                self.toggleLinkMulti(link);
+            } else {
+                self.toggleLinkSingle(link);
+            }
+        }
+
+        /**
+         * Toggle Links for Multi Select.
+         * @param link
+         */
+
+    }, {
+        key: 'toggleLinkMulti',
+        value: function toggleLinkMulti(link) {
+            var links = link.parentNode.querySelectorAll('a');
+            [].forEach.call(links, function (lnk) {
+                var classList = lnk.classList;
+                if (lnk === link) {
+                    if (classList.contains('active')) {
+                        classList.remove('active');
+                    } else {
+                        classList.add('active');
+                    }
+                }
+            });
+        }
+
+        /**
+         * Toggle Links for Single Select.
+         * @param link
+         */
+
+    }, {
+        key: 'toggleLinkSingle',
+        value: function toggleLinkSingle(link) {
             var links = link.parentNode.querySelectorAll('a');
             [].forEach.call(links, function (lnk) {
                 if (lnk === link) {
-                    link.className = 'active';
+                    lnk.classList.add('active');
                 } else {
-                    lnk.removeAttribute('class');
+                    lnk.classList.remove('active');
                 }
             });
         }

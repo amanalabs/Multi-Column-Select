@@ -1,109 +1,123 @@
 let defaults = {
     selector: '.mcs',
-    container :    'mcs-container',
+    container: 'mcs-container',
     init: false,
-    onClick: function(index, value){}
+    hideSelect: false,
+    onClick: function(index, value) {},
 };
 
 /**
  * MCS Base Class.
  */
 export class MCS {
-
     /**
      * Settings with defaults if not provided.
-     * @param options
+     * @param {array} options
      */
-    constructor(options){
+    constructor(options) {
         this.settings = Object.assign(defaults, options);
         this.containers = [];
-        if (true === this.settings.init){
+        if (true === this.settings.init) {
             this.init();
         }
     }
-
     /**
      * Initialise Multi Column Select.
      */
-    init(){
+    init() {
         let self = this;
         let selects = document.querySelectorAll(self.settings.selector);
-        [].forEach.call(selects, function(select){
-            let items = select.querySelectorAll('option');
-            self.build(self.settings.container,select,items);
+        [].forEach.call(selects, function(select) {
+            self.build(self.settings.container, select);
         });
     }
 
     /**
      * Build Multi Column Select Component
-     * @param className
-     * @param select
-     * @param items
+     * @param {string} className
+     * @param {HTMLDivElement} container
      */
-    build(className, select, items){
-
+    build(className, container) {
         let self = this;
+        let input = container.children[0];
         let links = [];
-        let container = self.createContainer(className);
-        let input = select.children[0];
+        let options = container.querySelectorAll('option');
 
-        [].forEach.call(items, function(item, itemIndex){
-            if (input.multiple === true){
-                //todo handle multiple
-            }else{
-                links.push(self.createSingleItem(item, itemIndex));
-                container.appendChild(links[links.length -1])
-            }
+        if (self.settings.hideSelect !== false){
+            input.classList.add(self.settings.hideSelect);
+        }
+
+        if (input.hasAttribute('multiple')) {
+            className += ' multiple';
+        }
+
+        let msc = self.createContainer(className);
+
+        [].forEach.call(options, function(option, itemIndex) {
+            links.push(self.createOptionReplacement(option, itemIndex, option.hasAttribute('selected')));
+            msc.appendChild(links[links.length -1]);
         });
 
-        input.onchange = function(){
+        input.onchange = function() {
             let selected = this.value;
-            [].forEach.call(links, function(link){
-                if (selected === link.getAttribute('data-value')){
-                    link.className ='active';
-                }else{
-                    link.removeAttribute('class');
+            [].forEach.call(links, function(link) {
+                if (selected === link.getAttribute('data-value')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
                 }
             });
         };
-        select.appendChild(container);
-        self.containers.push(container);
+
+        container.appendChild(msc);
+        self.containers.push(msc);
     }
 
-    /**
-     * Create Single Selection Item with events.
-     * @param item
-     * @param index
-     */
-    createSingleItem(item, index){
 
+    /**
+     * Create Option replacement link.
+     * @param {HTMLOptionElement} option
+     * @param {int} index
+     * @param {bool} active
+     * @return {HTMLAnchorElement}
+     */
+    createOptionReplacement(option, index, active = false) {
         let self = this;
-        let name =  item.innerHTML;
-        let value = item.value;
-        var link = self.createItem(value, index, name);
-        link.addEventListener('click',function(e){
+        let name = option.innerHTML;
+        let value = option.value;
+        let link = self.createItem(value, index, name);
+
+        if (active) {
+            link.classList.add('active');
+        }
+
+        link.addEventListener('click', function(e) {
             e.preventDefault();
             self.toggleLink(link);
             self.updateSelect(
-                this.parentNode
-                    .parentNode.querySelectorAll('option'),
-                link, index);
+                link.parentNode.parentNode.querySelectorAll('option'), link
+            );
             self.settings.onClick(index, value);
         });
+
         return link;
     }
 
     /**
-     * Update Select Control.
-     * @param {array} options
+     *
+     * @param options
      * @param link
-     * @param index
      */
-    updateSelect(options, link, index){
-        [].forEach.call(options, function(item){
-            item.removeAttribute('selected');
+    updateSelect(options, link) {
+        let links = link.parentNode.querySelectorAll('a');
+
+        [].forEach.call(options, function(option, index) {
+            if (links[index].classList.contains('active')) {
+                options[index].setAttribute('selected', 'selected');
+            } else {
+                options[index].removeAttribute('selected');
+            }
         });
-        options[index].setAttribute('selected','selected');
     }
 
     /**
@@ -111,8 +125,8 @@ export class MCS {
      * @param className
      * @returns {HTMLDivElement}
      */
-    createContainer(className){
-        var container = document.createElement('div');
+    createContainer(className) {
+        let container = document.createElement('div');
         container.className = className;
         return container;
     }
@@ -124,7 +138,7 @@ export class MCS {
      * @param name
      * @returns {HTMLAnchorElement}
      */
-    createItem(value, index, name){
+    createItem(value, index, name) {
         let link = document.createElement('a');
         link.innerHTML = name;
         link.setAttribute('href', value);
@@ -137,13 +151,44 @@ export class MCS {
      * Toggle links.
      * @param link
      */
-    toggleLink(link){
+    toggleLink(link) {
+        let self = this;
+        if (link.parentNode.classList.contains('multiple')) {
+            self.toggleLinkMulti(link);
+        } else {
+            self.toggleLinkSingle(link);
+        }
+    }
+
+    /**
+     * Toggle Links for Multi Select.
+     * @param link
+     */
+    toggleLinkMulti(link) {
         let links = link.parentNode.querySelectorAll('a');
-        [].forEach.call(links, function(lnk){
-            if (lnk === link){
-                link.className ='active';
-            }else{
-                lnk.removeAttribute('class');
+        [].forEach.call(links, function(lnk) {
+            let classList = lnk.classList;
+            if (lnk === link) {
+                if (classList.contains('active')) {
+                    classList.remove('active');
+                } else {
+                    classList.add('active');
+                }
+            }
+        });
+    }
+
+    /**
+     * Toggle Links for Single Select.
+     * @param link
+     */
+    toggleLinkSingle(link) {
+        let links = link.parentNode.querySelectorAll('a');
+        [].forEach.call(links, function(lnk) {
+            if (lnk === link) {
+                lnk.classList.add('active');
+            } else {
+                lnk.classList.remove('active');
             }
         });
     }

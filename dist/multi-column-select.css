@@ -17,7 +17,29 @@ h1 {
 h2 {
   font-size: 2em;
   color: #ffffff;
-  font-family: 'Ubuntu Condensed', sans-serif; }
+  font-family: 'Ubuntu Condensed', sans-serif;
+  margin-top: 20px; }
+
+.clear {
+  clear: both;
+  width: 100%; }
+
+p {
+  color: white;
+  padding: 20px 0; }
+
+select {
+  margin-bottom: 20px; }
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto; }
+
+select.msc-hidden {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  opacity: 0; }
 
 .mcs-container {
   width: 100%;
@@ -39,15 +61,3 @@ h2 {
     .mcs-container a.active {
       background: #e8e8e8;
       color: #222; }
-
-input[type=submit] {
-  border: 0;
-  line-height: 2em;
-  text-align: center;
-  background: #00ada9;
-  color: #FFF;
-  padding: 2em 1em;
-  margin-top: 1em; }
-  input[type=submit]:hover {
-    cursor: pointer;
-    background: #293b47; }

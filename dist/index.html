@@ -8,36 +8,41 @@
     <link href="multi-column-select.css" rel="stylesheet">
 </head>
 <body>
-    <main>
+    <main class="wrap">
         <h1>Multi-Column-Select</h1>
         <form>
             <h2>Single Selection Multi-Column-Select</h2>
+            <p>With original form control</p>
             <div class="mcs">
-            <select name="car" required>
-                <option value="Audi">Audi</option>
-                <option value="Bugatti" selected>Bugatti</option>
-                <option value="Chrysler">Chrysler</option>
-                <option value="Daihatsu">Daihatsu</option>
-                <option value="Ford">Ford</option>
-                <option value="GM">General Motors</option>
-                <option value="Honda">Honda</option>
-                <option value="Infiniti">Infiniti</option>
-            </select>
+                <select name="car" required>
+                    <option value="Audi">Audi</option>
+                    <option value="Bugatti" selected>Bugatti</option>
+                    <option value="Chrysler">Chrysler</option>
+                    <option value="Daihatsu">Daihatsu</option>
+                    <option value="Ford">Ford</option>
+                    <option value="GM">General Motors</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Infiniti">Infiniti</option>
+                </select>
             </div>
-            <h2>Multiple Selection Multi-Column-Select</h2>
-            <div class="mcs">
-            <select name="multiCar" required>
-                <option value="Audi" selected>Audi22</option>
-                <option value="Chrysler">Chrysler</option>
-                <option value="Daihatsu" selected>Daihatsu</option>
-                <option value="Ford">Ford</option>
-                <option value="GM">General Motors</option>
-                <option value="Honda">Honda</option>
-                <option value="Infiniti">Infiniti</option>
-            </select>
-            </div>
-
         </form>
+        <div class="clear"></div>
+        <form METHOD="get">
+            <h2>Multiple Selection Multi-Column-Select</h2>
+            <p>With original form control hidden.</p>
+            <div class="mcs-hide-select">
+                <select name="multiCar" required multiple>
+                    <option value="Audi" selected>Audi22</option>
+                    <option value="Chrysler">Chrysler</option>
+                    <option value="Daihatsu" >Daihatsu</option>
+                    <option value="Ford">Ford</option>
+                    <option value="GM" selected>General Motors</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Infiniti" selected>Infiniti</option>
+                </select>
+            </div>
+        </form>
+
     </main>
 
     
@@ -48,13 +53,24 @@
            selector: '.mcs',
            container :    'mcs-container',
            init: true,
+           hideSelect: false,
            onClick: function(index, value){
                console.log('current index:'+index+' value: '+value);
            }
        });
+
+       var mcs = new multiColumnSelect({
+           selector: '.mcs-hide-select',
+           container : 'mcs-container',
+           init: true,
+           hideSelect: 'msc-hidden',
+           onClick: function(index, value){
+               console.log('current index:'+index+' value: '+value);
+           }
+       });
+
        //mcs.init();
        //mcs.destroy();
     </script>
 </body>
-
 </html>

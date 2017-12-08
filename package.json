@@ -9,7 +9,7 @@
     "watch": "webpack --progress --watch",
     "start": "webpack-dev-server --open --config webpack.config.js",
     "test": "mocha -r test/setup.js --compilers js:babel-register --require babel-polyfill --recursive",
-    "eslint": "eslint --fix ./src/*; exit 0",
+    "eslint": "eslint --fix ./src/*/*.js; exit 0",
     "lint": "eslint --fix"
   },
   "keywords": [],
